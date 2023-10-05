@@ -20,22 +20,33 @@ smallrainfall = rainfall[:i+1]
 # Create a unit hydrograph by dividing the runoff by the peak runoff value
 #Amatrix 
 
-aMatreix = np.empty((len(rainfall),len(runoff)-i+1))
 
-print(len(rainfall))
-print(len(runoff)-i+1)
+aMatreix = np.empty((len(rainfall),len(rainfall)))
+bMatreix = np.array(runoff)
 
-for i in range (0,len(rainfall)-1,1):
-    for j in range (0,len(smallrainfall),1):
-        aMatreix[i,i+j]=smallrainfall[j]t
-        
+
+
+for i in range (0,len(rainfall),1):
+    for j in range (0,len(smallrainfall)-1,1):        
+        if i+j>len(rainfall)-1 and i>0 and j>0:
+            continue
+        else:
+            aMatreix[i,i+j]=smallrainfall[j+1]
+            
+
+    
+   
+aMatreix = aMatreix.T      
+bMatreix = bMatreix.T
+inverse_matrix_A = np.linalg.inv(aMatreix)
+
 
 
 
 #unit_hydrograph = 
-
-
-
+solution = np.linalg.solve(aMatreix, bMatreix)
+np.set_printoptions(precision=2, suppress=True)
+print(solution)
 #print(len(runoff)-i)
 
 
